@@ -10,7 +10,8 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/1
   def show
-    render json: @quiz
+     @quiz = Quiz.find(params[:id])
+    render json: @quiz.to_json(:include => { :cards => { :only => [:id, :word, :definition, :quiz_id] }})
   end
 
   # POST /quizzes
