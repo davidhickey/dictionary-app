@@ -4,7 +4,9 @@ import { Container, Header, Segment, Button, Icon, Dimmer, Loader, Divider } fro
 class App extends Component {
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      shown: true
+    }
     this.getQuizzes = this.getQuizzes.bind(this)
     this.getQuiz = this.getQuiz.bind(this)
   }
@@ -36,8 +38,26 @@ class App extends Component {
       .then(quiz => this.setState({quiz: quiz}))
   }
 
+  cardState(){
+    this.id.setState({isHidden: true
+    })
+  }
+
+  toggle() {
+   this.setState({
+     shown: !this.state.shown
+   })
+ }
+
   render () {
     let {quizzes, quiz} = this.state
+    var shown = {
+			display: this.state.shown ? "block" : "none"
+		};
+
+		var hidden = {
+			display: this.state.shown ? "none" : "block"
+		}
     return quizzes
       ? <Container text>
         <Header as='h2' icon textAlign='center' color='teal'>
@@ -64,14 +84,12 @@ class App extends Component {
             {quiz.description && <p>{quiz.description}</p>}
             {quiz.cards &&
               <Segment.Group>
-                {quiz.cards.map((card, i) => <Segment key={i}>{card.word}</Segment>)}
+                {quiz.cards.map((card, i) => <Segment key={i} onClick={this.toggle.bind(this)}>{card.word}
+                <Segment style={hidden} key={i}>{card.definition}</Segment>
+                </Segment>)}
               </Segment.Group>
             }
-            {quiz.cards &&
-              <Segment.Group>
-                {quiz.cards.map((card, i) => <Segment key={i}>{card.definition}</Segment>)}
-              </Segment.Group>
-            }
+
 
           </Container>
         }
