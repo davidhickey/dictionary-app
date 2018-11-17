@@ -92,13 +92,93 @@ class App extends Component {
 
 
           </Container>
+
         }
+
+        <Cards data={quiz && quiz.id}/>
       </Container>
       : <Container text>
         <Dimmer active inverted>
           <Loader content='Loading' />
         </Dimmer>
       </Container>
+
+  }
+
+
+}
+
+
+class Cards extends Component {
+  constructor() {
+   super();
+   this.state = {
+     show: true
+   };
+   this.onClick = this.handleClick.bind(this);
+   this.getCards = this.getCards.bind(this)
+   this.getCard = this.getCard.bind(this)
+ }
+
+ componentDidMount () {
+   this.getCards()
+ }
+
+ fetch (endpoint) {
+   return window.fetch(endpoint)
+     .then(response => response.json())
+     .catch(error => console.log(error))
+ }
+
+ getCards () {
+   this.fetch('/api/cards')
+     .then(cards => {
+       if (cards.length) {
+         this.setState({cards: cards})
+         this.getCard(cards[0].id)
+       } else {
+         this.setState({cards: []})
+       }
+     })
+ }
+
+ getCard (id) {
+   this.fetch(`/api/cards/${id}`)
+     .then(card => this.setState({card: card}))
+ }
+
+ handleClick(event) {
+   this.setState({
+      // show: quiz.cards
+   });
+ }
+
+  render(){
+    let {cards, card} = this.state
+
+    return cards
+      ? <Segment.Group>
+        {cards && cards.length
+          ? <Button.Group color='teal' fluid widths={cards.length}>
+            {Object.keys(cards).map((key) => {
+              return <Button active={card && card.id === cards[key].id} fluid key={key} onClick={() => {this.getCard(cards[key].id), console.log(this)}}>
+                {cards[key].word}
+              </Button>
+            })}
+          </Button.Group>
+          : <Container textAlign='center'>No Cards found.</Container>
+        }
+        {card &&
+            <Segment>{card.definition}</Segment>
+        }
+      </Segment.Group>
+      : <Container text>
+        <Dimmer active inverted>
+          <Loader content='Loading' />
+        </Dimmer>
+      </Container>
+
+
   }
 }
 
