@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Segment, Input, TextArea, Button, Icon, Dimmer, Loader, Divider } from 'semantic-ui-react'
+import { Container, Header, Segment, Form, Input, TextArea, Button, Icon, Dimmer, Loader, Divider } from 'semantic-ui-react'
 // import Input from '../components/Input';
 // import TextArea from '../components/TextArea';
 
@@ -20,6 +20,21 @@ class WordForm extends Component {
       this.handleClearForm = this.handleClearForm.bind(this);
     }
 
+    // var Input = (props) => {
+    //     return (
+    //     <label htmlFor={props.word} className="form-label">{'New Word'}</label>
+    //     <input
+    //       className="form-input"
+    //       id={props.word}
+    //       name={props.word}
+    //       type={props.type}
+    //       value={props.value}
+    //       onChange={props.handleChange}
+    //       placeholder={props.placeholder}
+    //     />
+    // )
+    // }
+    // export default Input;
   handleFormSubmit() {
      // Form submission logic
   }
@@ -33,20 +48,20 @@ class WordForm extends Component {
     return (
       <Container>
       <Header as='h2'>{'Add A Word'}</Header>
-      <form className="container" onSubmit={this.handleFormSubmit}>
-      <Segment.Group>
-      <Segment>
-      <Input />{'Word'}
-      </Segment>
-      <Segment>
-      <TextArea />{'Definition'}
-      </Segment>
-      <Button.Group>
-      <Button />{'Reset'}
-      <Button />{'Submit'}
-      </Button.Group>
-      </Segment.Group>
-    </form>
+      <Form onSubmit={this.handleFormSubmit}>
+        <Form.Field>
+          <label>Add Word</label>
+          <Input value={this.state.newWord.word} placeholder={'Add Word Here'}/>
+        </Form.Field>
+        <Form.Field>
+          <label>Add Definition</label>
+          <TextArea value={this.state.newWord.definition} placeholder={'Add Definition Here'}/>
+        </Form.Field>
+
+      <Button type="reset">Reset</Button>
+      <Button type='submit'>Submit</Button>
+
+    </Form>
     </Container>
 
     );

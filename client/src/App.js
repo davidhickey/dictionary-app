@@ -170,7 +170,7 @@ class Cards extends Component {
           ? <Button.Group color='teal' fluid widths={cards.length}>
             {Object.keys(cards).map((key) => {
               // if(quiz_id == card.quiz_id){
-                return <Button active={card && card.id === cards[key].id} fluid key={key} onClick={() => {this.getCard(cards[key].id), console.log(this)}}>
+                return <Button active={card && card.id === cards[key].id} fluid key={key} onClick={() => this.getCard(cards[key].id)}>
                 {cards[key].word}
 
               </Button>
