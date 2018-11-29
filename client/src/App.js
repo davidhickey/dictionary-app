@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { Container, Header, Segment, Button, Icon, Dimmer, Loader, Divider } from 'semantic-ui-react'
-
+//components
+import WordForm from './components/WordForm';
 class App extends Component {
   constructor () {
     super()
     this.state = {
-      shown: true
+      shown: true,
+      quiz_id: this.id
+
     }
     this.getQuizzes = this.getQuizzes.bind(this)
     this.getQuiz = this.getQuiz.bind(this)
+
   }
+
 
   componentDidMount () {
     this.getQuizzes()
@@ -35,7 +40,7 @@ class App extends Component {
 
   getQuiz (id) {
     this.fetch(`/api/quizzes/${id}`)
-      .then(quiz => this.setState({quiz: quiz}))
+      .then(quiz => this.setState({quiz: quiz, quiz_id: quiz.id}))
   }
 
   cardState(){
@@ -96,6 +101,7 @@ class App extends Component {
         }
 
         <Cards data={quiz && quiz.id}/>
+        <WordForm/>
       </Container>
       : <Container text>
         <Dimmer active inverted>
@@ -113,7 +119,8 @@ class Cards extends Component {
   constructor() {
    super();
    this.state = {
-     show: true
+     show: true,
+     quiz_id: true
    };
    this.onClick = this.handleClick.bind(this);
    this.getCards = this.getCards.bind(this)
@@ -144,7 +151,7 @@ class Cards extends Component {
 
  getCard (id) {
    this.fetch(`/api/cards/${id}`)
-     .then(card => this.setState({card: card}))
+     .then(card => this.setState({card: card, quiz_id: card.quiz_id}))
  }
 
  handleClick(event) {
@@ -156,14 +163,18 @@ class Cards extends Component {
   render(){
     let {cards, card} = this.state
 
+
     return cards
       ? <Segment.Group>
         {cards && cards.length
           ? <Button.Group color='teal' fluid widths={cards.length}>
             {Object.keys(cards).map((key) => {
-              return <Button active={card && card.id === cards[key].id} fluid key={key} onClick={() => {this.getCard(cards[key].id), console.log(this)}}>
+              // if(quiz_id == card.quiz_id){
+                return <Button active={card && card.id === cards[key].id} fluid key={key} onClick={() => {this.getCard(cards[key].id), console.log(this)}}>
                 {cards[key].word}
+
               </Button>
+            // }
             })}
           </Button.Group>
           : <Container textAlign='center'>No Cards found.</Container>
