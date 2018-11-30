@@ -64,12 +64,37 @@ class WordForm extends Component {
          },
        })
      }
+     getDefinition(e){
+      //  e.preventDefault();
+      // let url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/'+ value +'?key=c7ab16a7-6f5a-45f3-b42d-d60b0fab9d91'
+      //  fetch(url,{
+      //      method: "GET"
+      //    }).then(response => {
+      //      console.log("response", response);
+      //
+      //      // response.json().then(data =>{
+      //      //   console.log("Successful" + data);
+      //      // })
+      //  })
+
+     }
 
      onChange(value, key) {
      this.setState((previousState) => {
        const newWord = previousState.newWord
        return { newWord: {...newWord, [key]: value} }
      })
+     let url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/'+ value +'?key=c7ab16a7-6f5a-45f3-b42d-d60b0fab9d91'
+      fetch(url,{
+          method: "GET"
+        }).then(response => {
+          console.log("response", response);
+
+          response.json().then(data =>{
+            console.log(data);
+          })
+      })
+
    }
 
 
@@ -83,8 +108,8 @@ class WordForm extends Component {
         <Form.Field>
           <label>Add Word</label>
           <Input type='text' name={'word'} value={this.state.newWord.word} onChange={(e) => {this.onChange(e.target.value, 'word')}} placeholder={'Add Word Here'}/>
-
         </Form.Field>
+        <Button type="getDef" onClick={this.getDefinition}>Get Definition</Button>
         <Form.Field>
           <label>Add Definition</label>
           <TextArea type='text' name={'definition'} value={this.state.newWord.definition} onChange={(e) => {this.onChange(e.target.value, 'definition')}} placeholder={'Add Definition Here'}/>
