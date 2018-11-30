@@ -38,5 +38,7 @@ module AppDict
     config.middleware.use ActionDispatch::Flash
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    config.action_controller.forgery_protection_origin_check = false
   end
 end

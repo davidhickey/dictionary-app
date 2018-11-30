@@ -1,5 +1,6 @@
 class CardsController < ApplicationController
-  before_action :set_card, only: [:show, :update, :destroy]
+  before_action :set_card, only: [:create, :show, :update, :destroy]
+
 
   # GET /cards
   def index
@@ -42,6 +43,8 @@ class CardsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_card
       @card = Card.find(params[:id])
+      # render json: @cards
+
     end
 
     # Only allow a trusted parameter "white list" through.

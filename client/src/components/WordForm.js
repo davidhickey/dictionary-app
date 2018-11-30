@@ -12,7 +12,8 @@ class WordForm extends Component {
       this.state = {
         newWord: {
           word: '',
-          definition: ''
+          definition: '',
+          quiz_id: '1'
         }
       }
 
@@ -35,12 +36,42 @@ class WordForm extends Component {
     // )
     // }
     // export default Input;
-  handleFormSubmit() {
-     // Form submission logic
-  }
-  handleClearForm() {
-     // Logic for resetting the form
-  }
+    handleFormSubmit(e) {
+      e.preventDefault();
+      let wordData = this.state.newWord;
+
+      fetch('/admin/cards',{
+          method: "POST",
+          body: JSON.stringify(wordData),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        }).then(response => {
+          response.json().then(data =>{
+            console.log("Successful" + data);
+          })
+      })
+    }
+
+  handleClearForm(e) {
+    e.preventDefault();
+       this.setState({
+         newWord: {
+           word: '',
+           definition: '',
+           quiz_id: '1'
+         },
+       })
+     }
+
+     onChange(value, key) {
+     this.setState((previousState) => {
+       const newWord = previousState.newWord
+       return { newWord: {...newWord, [key]: value} }
+     })
+   }
+
 
 
 
@@ -51,14 +82,16 @@ class WordForm extends Component {
       <Form onSubmit={this.handleFormSubmit}>
         <Form.Field>
           <label>Add Word</label>
-          <Input value={this.state.newWord.word} placeholder={'Add Word Here'}/>
+          <Input type='text' name={'word'} value={this.state.newWord.word} onChange={(e) => {this.onChange(e.target.value, 'word')}} placeholder={'Add Word Here'}/>
+
         </Form.Field>
         <Form.Field>
           <label>Add Definition</label>
-          <TextArea value={this.state.newWord.definition} placeholder={'Add Definition Here'}/>
+          <TextArea type='text' name={'definition'} value={this.state.newWord.definition} onChange={(e) => {this.onChange(e.target.value, 'definition')}} placeholder={'Add Definition Here'}/>
+
         </Form.Field>
 
-      <Button type="reset">Reset</Button>
+      <Button type="reset" onClick={this.handleClearForm}>Reset</Button>
       <Button type='submit'>Submit</Button>
 
     </Form>
