@@ -21,21 +21,6 @@ class WordForm extends Component {
       this.handleClearForm = this.handleClearForm.bind(this);
     }
 
-    // var Input = (props) => {
-    //     return (
-    //     <label htmlFor={props.word} className="form-label">{'New Word'}</label>
-    //     <input
-    //       className="form-input"
-    //       id={props.word}
-    //       name={props.word}
-    //       type={props.type}
-    //       value={props.value}
-    //       onChange={props.handleChange}
-    //       placeholder={props.placeholder}
-    //     />
-    // )
-    // }
-    // export default Input;
     handleFormSubmit(e) {
       e.preventDefault();
       let wordData = this.state.newWord;
@@ -84,6 +69,12 @@ class WordForm extends Component {
        const newWord = previousState.newWord
        return { newWord: {...newWord, [key]: value} }
      })
+   }
+
+
+   onClickDef(){
+    let value = this.state.newWord.word
+    console.log(value)
      let url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/'+ value +'?key=c7ab16a7-6f5a-45f3-b42d-d60b0fab9d91'
       fetch(url,{
           method: "GET"
@@ -91,11 +82,18 @@ class WordForm extends Component {
           console.log("response", response);
 
           response.json().then(data =>{
-            console.log(data);
+            console.log(data[0].shortdef);
+            this.setState({
+              newWord: {
+                word: value,
+                definition: data[0].shortdef,
+                 quiz_id: '1'
+              }
+              })
           })
       })
-
    }
+
 
 
 
@@ -107,14 +105,13 @@ class WordForm extends Component {
       <Form onSubmit={this.handleFormSubmit}>
         <Form.Field>
           <label>Add Word</label>
-          <Input type='text' name={'word'} value={this.state.newWord.word} onChange={(e) => {this.onChange(e.target.value, 'word')}} placeholder={'Add Word Here'}/>
+          <Input type='text' name={'word'} value={this.state.newWord.word || ''} onChange={(e) => {this.onChange(e.target.value, 'word')}} placeholder={'Add Word Here'}/>
         </Form.Field>
-        <Button type="getDef" onClick={this.getDefinition}>Get Definition</Button>
-        <Form.Field>
-          <label>Add Definition</label>
-          <TextArea type='text' name={'definition'} value={this.state.newWord.definition} onChange={(e) => {this.onChange(e.target.value, 'definition')}} placeholder={'Add Definition Here'}/>
+        <Button type="button" onClick={() => this.onClickDef(this.state.newWord.word)}>Get Definition</Button>
 
-        </Form.Field>
+          <h4>Definition</h4>
+          <p type='text' name={'definition'} value={this.state.newWord.definition}><b>{this.state.newWord.word}</b><br/>{this.state.newWord.definition}</p>
+
 
       <Button type="reset" onClick={this.handleClearForm}>Reset</Button>
       <Button type='submit'>Submit</Button>
