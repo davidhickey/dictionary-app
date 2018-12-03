@@ -72,8 +72,8 @@ class WordForm extends Component {
    }
 
 
-   onClickDef(){
-    let value = this.state.newWord.word
+   onClickDef(value){
+    // let value = this.state.newWord.word
     console.log(value)
      let url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/'+ value +'?key=c7ab16a7-6f5a-45f3-b42d-d60b0fab9d91'
       fetch(url,{
@@ -86,7 +86,7 @@ class WordForm extends Component {
             this.setState({
               newWord: {
                 word: value,
-                definition: data[0].shortdef,
+                definition: data[0].shortdef[0],
                  quiz_id: '1'
               }
               })
