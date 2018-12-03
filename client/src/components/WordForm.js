@@ -35,6 +35,13 @@ class WordForm extends Component {
         }).then(response => {
           response.json().then(data =>{
             console.log("Successful" + data);
+            this.setState({
+              newWord: {
+                word: '',
+                definition: '',
+                quiz_id: '1'
+              },
+            })
           })
       })
     }

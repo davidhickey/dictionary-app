@@ -160,6 +160,38 @@ class Cards extends Component {
    });
  }
 
+ deleteCard(card){
+   console.log(card);
+   fetch('/admin/cards/'+card+'',{
+       method: "DELETE",
+       // body: JSON.stringify(wordData),
+       headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json'
+       },
+     }).then(cards => {
+       // if (cards.length) {
+         this.setState({cards: cards})
+         // this.getCard(cards[0].id)
+       // } else {
+       //   this.setState({cards: []})
+       // }
+       // response.json();
+       // .then(data =>{
+       //   console.log("Successful" + data);
+       //   this.setState({
+       //     newWord: {
+       //       word: '',
+       //       definition: '',
+       //       quiz_id: '1'
+       //     },
+       //   })
+       // })
+   })
+
+
+ }
+
   render(){
     let {cards, card} = this.state
 
@@ -167,12 +199,12 @@ class Cards extends Component {
     return cards
       ? <Segment.Group>
         {cards && cards.length
-          ? <Button.Group color='teal' fluid widths={cards.length}>
+          ? <Button.Group className="vertical" color='teal' fluid widths={cards.length}>
             {Object.keys(cards).map((key) => {
               // if(quiz_id == card.quiz_id){
                 return <Button active={card && card.id === cards[key].id} fluid key={key} onClick={() => this.getCard(cards[key].id)}>
                 {cards[key].word}
-
+                <Icon className='right' name='close' onClick={() => this.deleteCard(cards[key].id)} />
               </Button>
             // }
             })}
