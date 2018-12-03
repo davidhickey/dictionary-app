@@ -42,6 +42,8 @@ class WordForm extends Component {
                 quiz_id: '1'
               },
             })
+            // this.getCards.bind(this)
+
           })
       })
     }

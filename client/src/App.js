@@ -100,8 +100,9 @@ class App extends Component {
 
         }
 
+        <WordForm />
         <Cards data={quiz && quiz.id}/>
-        <WordForm/>
+
       </Container>
       : <Container text>
         <Dimmer active inverted>
@@ -169,25 +170,9 @@ class Cards extends Component {
          'Accept': 'application/json',
          'Content-Type': 'application/json'
        },
-     }).then(cards => {
-       // if (cards.length) {
-         this.setState({cards: cards})
-         // this.getCard(cards[0].id)
-       // } else {
-       //   this.setState({cards: []})
-       // }
-       // response.json();
-       // .then(data =>{
-       //   console.log("Successful" + data);
-       //   this.setState({
-       //     newWord: {
-       //       word: '',
-       //       definition: '',
-       //       quiz_id: '1'
-       //     },
-       //   })
-       // })
-   })
+     }).then(
+       this.getCards.bind(this)
+     )
 
 
  }
@@ -195,8 +180,8 @@ class Cards extends Component {
   render(){
     let {cards, card} = this.state
 
-
     return cards
+
       ? <Segment.Group>
         {cards && cards.length
           ? <Button.Group className="vertical" color='teal' fluid widths={cards.length}>
