@@ -7,11 +7,13 @@ class App extends Component {
     super()
     this.state = {
       shown: true,
-      quiz_id: this.id
+      quiz_id: this.id,
+      submitted: null
 
     }
     this.getQuizzes = this.getQuizzes.bind(this)
     this.getQuiz = this.getQuiz.bind(this)
+    this.onChangeCard = this.onChangeCard.bind(this)
 
   }
 
@@ -19,6 +21,9 @@ class App extends Component {
   componentDidMount () {
     this.getQuizzes()
   }
+  onChangeCard(){
+      this.setState({submitted: 'true' })
+    }
 
   fetch (endpoint) {
     return window.fetch(endpoint)
@@ -99,9 +104,11 @@ class App extends Component {
           </Container>
 
         }
+        <WordForm onChangeCard={this.onChangeCard} quiz_id={this.state.quiz_id} />
+        <Cards data={quiz && quiz.id} submitted={this.state.submitted} quiz_id={this.state.quiz_id} />
 
-        <WordForm />
-        <Cards data={quiz && quiz.id}/>
+
+
 
       </Container>
       : <Container text>
@@ -144,6 +151,7 @@ class Cards extends Component {
        if (cards.length) {
          this.setState({cards: cards})
          this.getCard(cards[0].id)
+         console.log('got cards from api');
        } else {
          this.setState({cards: []})
        }
@@ -152,7 +160,7 @@ class Cards extends Component {
 
  getCard (id) {
    this.fetch(`/api/cards/${id}`)
-     .then(card => this.setState({card: card, quiz_id: card.quiz_id}))
+     .then(card => this.setState({card: card, quiz_id: this.props.quiz_id}))
  }
 
  handleClick(event) {
@@ -176,15 +184,23 @@ class Cards extends Component {
 
 
  }
+ componentWillReceiveProps(props){
+   const submitted = props.submitted
+   if(submitted == 'true'){
+     this.getCards()
+   }
+ }
+
+
 
   render(){
     let {cards, card} = this.state
 
     return cards
-
-      ? <Segment.Group>
+      ?<Segment.Group submitted={this.props.submitted}>
+      <h2>{'My Words'}</h2>
         {cards && cards.length
-          ? <Button.Group className="vertical" color='teal' fluid widths={cards.length}>
+          ?<Button.Group className="vertical" color='teal' fluid widths={cards.length}>
             {Object.keys(cards).map((key) => {
               // if(quiz_id == card.quiz_id){
                 return <Button active={card && card.id === cards[key].id} fluid key={key} onClick={() => this.getCard(cards[key].id)}>
@@ -206,8 +222,7 @@ class Cards extends Component {
         </Dimmer>
       </Container>
 
-
   }
 }
 
-export default App
+export default App;

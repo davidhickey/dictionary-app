@@ -13,7 +13,7 @@ class WordForm extends Component {
         newWord: {
           word: '',
           definition: '',
-          quiz_id: '1'
+          quiz_id: this.props.quiz_id
         }
       }
 
@@ -39,12 +39,12 @@ class WordForm extends Component {
               newWord: {
                 word: '',
                 definition: '',
-                quiz_id: '1'
-              },
+                quiz_id: this.props.quiz_id
+              }
             })
-            // this.getCards.bind(this)
-
           })
+          this.props.onChangeCard()
+
       })
     }
 
@@ -58,20 +58,6 @@ class WordForm extends Component {
          },
        })
      }
-     getDefinition(e){
-      //  e.preventDefault();
-      // let url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/'+ value +'?key=c7ab16a7-6f5a-45f3-b42d-d60b0fab9d91'
-      //  fetch(url,{
-      //      method: "GET"
-      //    }).then(response => {
-      //      console.log("response", response);
-      //
-      //      // response.json().then(data =>{
-      //      //   console.log("Successful" + data);
-      //      // })
-      //  })
-
-     }
 
      onChange(value, key) {
      this.setState((previousState) => {
@@ -83,7 +69,7 @@ class WordForm extends Component {
 
    onClickDef(value){
     // let value = this.state.newWord.word
-    console.log(value)
+    // console.log(value)
      let url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/'+ value +'?key=c7ab16a7-6f5a-45f3-b42d-d60b0fab9d91'
       fetch(url,{
           method: "GET"
@@ -96,7 +82,7 @@ class WordForm extends Component {
               newWord: {
                 word: value,
                 definition: data[0].shortdef[0],
-                 quiz_id: '1'
+                 quiz_id: this.props.quiz_id
               }
               })
           })
