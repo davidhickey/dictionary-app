@@ -186,7 +186,7 @@ class Cards extends Component {
  }
  componentWillReceiveProps(props){
    const submitted = props.submitted
-   if(submitted == 'true'){
+   if(submitted === 'true'){
      this.getCards()
    }
  }
