@@ -3,6 +3,7 @@ import { Container, Header, Segment, Button, Icon, Dimmer, Loader, Divider } fro
 //components
 import Cards from './components/Cards';
 import WordForm from './components/WordForm';
+import QuizMode from './components/QuizMode';
 
 class App extends Component {
   constructor () {
@@ -71,6 +72,8 @@ class App extends Component {
         <Divider section />
         <WordForm onChangeCard={this.onChangeCard} quiz_id={this.state.quiz_id} />
         <Cards data={quiz && quiz.id} submitted={this.state.submitted} quiz_id={this.state.quiz_id} />
+        <QuizMode />
+
 
 
 
