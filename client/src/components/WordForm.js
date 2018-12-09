@@ -45,6 +45,8 @@ class WordForm extends Component {
           })
           this.props.onChangeCard()
 
+
+
       })
     }
 
